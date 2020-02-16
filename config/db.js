@@ -16,7 +16,7 @@ const connectDB = async () => {
 
     } catch (err) {
         console.error(err.message);
-        console.error("Loda hai tu");
+        // console.error("Loda hai tu");
         process.exit(1);
 
     }
