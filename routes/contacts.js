@@ -57,15 +57,31 @@ router.post('/', [auth, [
 // @route   PUT api/contacts/:id
 // @desc    Update contact
 // @access  Private
-router.put('/:id', (req, res) => {
-    res.send('Update contact');
+router.put('/:id', async (req, res) => {
+    updated_contact = await Contact
+        .findByIdAndUpdate(req.params.id,
+            {
+                email: req.body.email,
+                name: req.body.name,
+                phone: req.body.phone,
+                type: req.body.type,
+                user: req.body.user
+            },
+            { returnOriginal: false }
+        ).then((ret) => ret)
+    res.json(updated_contact)
 });
 
 // @route   DELETE api/contacts/:id
 // @desc    Delete contact
 // @access  Private
-router.delete('/:id', (req, res) => {
-    res.send('Delete contact');
+router.delete('/:id', async (req, res) => {
+    // Contact.findByIdAndDelete(req.id)
+    const message = await Contact
+        .findByIdAndRemove(req.params.id)
+        .then(() => 'Contact deleted');
+
+    res.json({ message });
 });
 
 module.exports = router;
